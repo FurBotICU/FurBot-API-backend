@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     res.send({
-        code: 0,
+        code: 200,
         msg: 'okkkkk'
     })
 });

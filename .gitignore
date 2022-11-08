@@ -1,0 +1,9 @@
+# node modules
+node_modules
+
+# config
+config*.json
+
+# tempFile
+temp/
+temp*

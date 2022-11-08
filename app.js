@@ -19,7 +19,7 @@ logger.info("初始化 Express");
 const router = require('./router');
 const path = require('path');
 
-const port = 3000;
+const port = 26993;
 
 
 // 初始化 Express 实例
