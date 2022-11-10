@@ -8,6 +8,11 @@ const http = require('http');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
+
+// 引入配置文件
+const {port} = require('./config.json').express;
+const {domain, secret} = require('./config.json').express.session;
 
 // 初始化
 console.log("初始化 Express");
@@ -15,8 +20,6 @@ console.log("初始化 Express");
 // 引入路由
 const router = require('./routers');
 const path = require('path');
-
-const port = 26993;
 
 
 // 初始化 Express 实例
@@ -35,6 +38,14 @@ app.use(allowCors);
 // 使用数据处理中间件
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(session({
+    secret: secret,
+    name: 'sid',
+    cookie: {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        domain
+    }
+}))
 
 // 调试输出
 if (process.env.MORGAN && process.env.MORGAN == 'true') {

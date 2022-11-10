@@ -3,15 +3,17 @@
  * /developer
  */
 
+// 初始化路由
 const router = require('express').Router();
 
+// 引入控制器
+const developerCtrl = require('../../controllers/manage/developer');
 
-
-router.post('/login', );
-router.post('/logout', );
+router.get('/login', developerCtrl.login);
+router.get('/logout', developerCtrl.logout);
 router.post('/destroy', );
 
-router.get('/info', );
+router.get('/info', developerCtrl.getInfo);
 router.post('/info/update', );
 
 router.get('/certificate/status', );

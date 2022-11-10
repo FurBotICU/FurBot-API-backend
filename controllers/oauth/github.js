@@ -10,17 +10,11 @@ const axios = require('axios');
 
 // 引入配置文件
 const {github} = require('../../config.json').oauth;
-// let {proxy} = require( path.resolve('config.json') );
+let {proxy} = require('../../config.json');
+const expressConfig = require('../../config.json').express;
 
 // 引入auth控制器
 const authCtrl = require('../auth');
-
-// 判断运行环境，切换代理
-// if (proxy.active) {
-//     proxy = process.env.dev ? proxy.dev : proxy.prod;
-// } else {
-//     proxy = null;
-// }
 
 module.exports = {
 
@@ -107,9 +101,17 @@ module.exports = {
                 method: 'post',
                 url: 'https://github.com/login/oauth/access_token',
                 params,
-                // proxy
+                proxy
             })
             const access_token = (new URLSearchParams(r.data)).get('access_token');
+
+            if (!access_token) {
+                res.send({
+                    code: -401,
+                    msg: "请求已过期，请重新登录"
+                });
+                return;
+            }
     
             r = await axios({
                 method: 'get',
@@ -117,10 +119,19 @@ module.exports = {
                 headers: {
                 'Authorization': 'token ' + access_token
                 },
-                // proxy
+                proxy
             });
             
         } catch (error) {
+
+            // if (error.code == 'ERR_INVALID_URL') {
+            //     res.send({
+            //         code: -400,
+            //         msg: "redirectURI格式有误"
+            //     });
+            //     return;
+            // } 
+
             console.error(error);
             res.send({
                 code: -410,
@@ -140,10 +151,18 @@ module.exports = {
         };
 
         // 使用通用身份认证换取用户信息
-        await authCtrl.oauth.github(userInfoObj, req);
+        r = await authCtrl.oauth.github(userInfoObj, req);
+        if (!r) {
+            res.send({
+                code: -410,
+                msg: "数据同步失败，请重试，如果无效请联系站点管理员"
+            });
+            return;
+        }
 
         // 读取session中的重定向
-        const redirectURI = req.session.redirectURI || "https://dash.api.furbot.icu";
+        const defaultRedirect = process.env.dev ? `http://127.0.0.1:${expressConfig.port}/manage/developer/info` : "https://dash.api.furbot.icu";
+        const redirectURI = req.session.redirectURI || github.redirectURI || defaultRedirect;
         res.redirect(redirectURI);
     }
 

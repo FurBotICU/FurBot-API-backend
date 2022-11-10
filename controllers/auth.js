@@ -25,7 +25,7 @@ module.exports = {
             if (process.env.dev) console.log(`OAuth 登录请求: GitHub - ${userInfoObj.name}`);
     
             let queryObject = {
-                name: userInfoObj.name
+                id: userInfoObj.id
             };
     
             // 查找用户
@@ -44,12 +44,13 @@ module.exports = {
                     r = await Developer.create(userInfo);
                 } catch (error) {
                     console.log(error);
+                    return;
                 }
             }
     
-            req.session.userInfo = r;
+            req.session.uid = r.id;
     
-            return;
+            return 1;
         }
 
     }
