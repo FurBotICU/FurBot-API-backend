@@ -9,5 +9,7 @@ module.exports = model('Series', new Schema({
         type: String,
         unique: true
     },
-    name: String
+    name: String,
+    maintainer: String,
+    createTime: Date
 }))

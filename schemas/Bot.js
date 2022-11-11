@@ -13,11 +13,16 @@ module.exports = model('Bot', new Schema({
     name: String,
     intro: String,
     // single | series
-    type: String,
+    type: {
+        type: String,
+        require: true
+    },
     series: {
         id: String,
         serialId: Number
     },
     maintainer: String,
-    program: [String]
+    program: [String],
+    createTime: Date,
+    lastOnlineTime: Date
 }))

@@ -79,8 +79,8 @@ module.exports = {
 
         if (!options) options = {};
 
-        Object.assign(options, {_id: 0, __v: 0});
-        
+        Object.assign(options, { _id: 0, __v: 0 });
+
         r = await Program.find(query, options);
 
         return {
@@ -99,11 +99,10 @@ module.exports = {
      */
     async updateProgram(query, data) {
 
-
         let r;
 
         const { nick, name, intro, repo } = data;
-        
+
         try {
             r = await Program.findOneAndUpdate(query, {
                 $set: {
