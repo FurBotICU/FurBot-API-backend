@@ -18,26 +18,26 @@ module.exports = {
          * @param {Object} userInfoObj OAuth返回数据
          * @param {Request} req express.req 用于设置session
          */
-        github: async (userInfoObj, req) => {
-    
+        async github(userInfoObj, req) {
+
             let r;
-    
-            if (process.env.dev) console.log(`OAuth 登录请求: GitHub - ${userInfoObj.name}`);
-    
+
+            console.log(`OAuth 登录请求: GitHub - ${userInfoObj.name}`);
+
             let queryObject = {
                 id: userInfoObj.id
             };
-    
+
             // 查找用户
             r = await Developer.findOne(queryObject, {
                 _id: 0,
                 __v: 0
             });
-    
+
             // 新用户注册（？
             if (!r) {
                 let userInfo = {
-                    createDate: new Date()
+                    createTime: new Date()
                 }
                 Object.assign(userInfo, userInfoObj);
                 try {
@@ -47,9 +47,9 @@ module.exports = {
                     return;
                 }
             }
-    
+
             req.session.uid = r.id;
-    
+
             return 1;
         }
 

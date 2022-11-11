@@ -10,13 +10,14 @@ const router = require('express').Router();
 const developerCtrl = require('../../controllers/manage/developer');
 
 router.get('/login', developerCtrl.login);
+if (process.env.dev) router.post('/login', developerCtrl.devLogin);
 router.get('/logout', developerCtrl.logout);
-router.post('/destroy', );
+router.post('/destroy', developerCtrl.destroyAccount);
 
 router.get('/info', developerCtrl.getInfo);
-router.post('/info/update', );
+router.post('/info/update', developerCtrl.updateInfo);
 
-router.get('/certificate/status', );
-router.post('/certificate/submit', );
+router.get('/certificate/status', developerCtrl.getCertificate);
+router.post('/certificate/submit', developerCtrl.submitCertificate);
 
 module.exports = router;

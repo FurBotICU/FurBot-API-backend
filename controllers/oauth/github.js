@@ -9,8 +9,8 @@ const { Request, Response } = require('express');
 const axios = require('axios');
 
 // 引入配置文件
-const {github} = require('../../config.json').oauth;
-let {proxy} = require('../../config.json');
+const { github } = require('../../config.json').oauth;
+let { proxy } = require('../../config.json');
 const expressConfig = require('../../config.json').express;
 
 // 引入auth控制器
@@ -23,22 +23,22 @@ module.exports = {
      * @param {Request} req 
      * @param {Response} res
      */
-    request: (req, res) => {
+    request: function (req, res) {
 
         if (process.env.dev) console.log("GitHub 登录请求");
 
         // 检查是否有redirectURI
         if (req.query.redirectURI) {
-            
+
             // 以及校验
             try {
 
                 // 先判断是否纯路径
                 const pathReg = /^\/\w+\?{0,1}((\w+=\S+&)*(\w+=\w+){0,1}){0,1}(\/\w+)*$/;
                 if (!pathReg.test(req.query.redirectURI)) {
-                    
+
                     // let redirectURI = new URL (req.query.redirectURI);
-                    
+
                     // if ( redirectURI.hostname.substring(redirectURI.hostname.length - 12) != 'furryhome.cn' ) {
                     //     res.send({
                     //         code: -400,
@@ -82,18 +82,18 @@ module.exports = {
      * @param {Request} req 
      * @param {Response} res 
      */
-    callback: async (req, res) => {
+    callback: async function (req, res) {
 
         if (process.env.dev) console.log("GitHub 回调请求");
 
         // 服务器认证成功，回调带回认证状态code
-        const {code} = req.query;
+        const { code } = req.query;
         const params = {
             client_id: github.client_id,
             client_secret: github.client_secret,
             code
         }
-        
+
         // 申请令牌token
 
         try {
@@ -112,16 +112,16 @@ module.exports = {
                 });
                 return;
             }
-    
+
             r = await axios({
                 method: 'get',
                 url: 'https://api.github.com/user',
                 headers: {
-                'Authorization': 'token ' + access_token
+                    'Authorization': 'token ' + access_token
                 },
                 proxy
             });
-            
+
         } catch (error) {
 
             // if (error.code == 'ERR_INVALID_URL') {
@@ -141,7 +141,7 @@ module.exports = {
         }
 
         // 使用GitHub登录信息访问用户信息数据库
-        const {name, avatar_url, login, email, id} = r.data;
+        const { name, avatar_url, login, email, id } = r.data;
         const userInfoObj = {
             name: login,
             nick: name,

@@ -16,7 +16,7 @@ module.exports = {
      * @param {Response} res 
      * @param {next} next 
      */
-    status: (req, res, next) => {
+    async status(req, res, next) {
 
         // 排除 /manage/developer/login
         if (req.path != '/developer/login') {
@@ -25,6 +25,17 @@ module.exports = {
                 res.send({
                     code: -401,
                     msg: "未登录"
+                });
+                return;
+            }
+
+            let r = await Developer.findOne({ id: req.session.uid });
+
+            if (!r) {
+                req.session.uid = null;
+                res.send({
+                    code: -401,
+                    msg: "账号不存在"
                 });
                 return;
             }
@@ -42,7 +53,7 @@ module.exports = {
      * @param {Response} res 
      * @param {next} next 
      */
-    verify: async (req, res, next) => {
+    async verify(req, res, next) {
 
         const r = await Developer.findOne({
             id: req.session.uid

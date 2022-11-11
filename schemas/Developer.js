@@ -25,5 +25,5 @@ module.exports = model('Developer', new Schema({
     avatar: String,
     email: String,
     qq: Number,
-    createDate: Date
+    createTime: Date
 }))
