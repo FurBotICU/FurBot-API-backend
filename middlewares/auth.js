@@ -48,6 +48,30 @@ module.exports = {
     },
 
     /**
+     * 验证是否认证
+     * @param {Request} req 
+     * @param {Response} res 
+     * @param {next} next 
+     */
+    async cert(req, res, next) {
+
+        const r = await Developer.findOne({
+            id: req.session.uid
+        })
+
+        if (!r || !r.certificate) {
+            res.send({
+                code: -403,
+                msg: "账户未认证，前面的区域，以后再来探索吧！"
+            });
+            return;
+        }
+
+        // 跳回
+        next();
+    },
+
+    /**
      * 验证身份
      * @param {Request} req 
      * @param {Response} res 

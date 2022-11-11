@@ -9,12 +9,16 @@ module.exports = model('Program', new Schema({
         type: String,
         unique: true
     },
-    nick: String,
+    nick: {
+        type: String,
+        require: true
+    },
     name: {
         type: String,
         unique: true
     },
     intro: String,
     repo: String,
-    contributor: [String]
+    contributor: [String],
+    createTime: Date
 }))
