@@ -5,13 +5,9 @@
 // 引入类型
 const { Request, Response } = require('express');
 
-// 引入配置文件
-const { saltRounds } = require('../../config.json').secret;
-
 // 引入库
 const { simpleflake } = require('simpleflakes');
 const srs = require('secure-random-string');
-const bcrypt = require('bcrypt');
 
 // 引入数据模型
 const Developer = require('../../schemas/Developer');
@@ -80,17 +76,13 @@ module.exports = {
         }
 
         let r;
-
-        // secret 存入数据库前，需要对其加盐
         
         const appId = simpleflake().toString(16);
         const secret = srs();
-        const salt = await bcrypt.genSalt(saltRounds);
-        const secretHash = await bcrypt.hash(secret, salt);
 
         r = await Secret.create({
             appId,
-            secret: secretHash,
+            secret,
             maintainer: uid,
             desc,
             expires,
