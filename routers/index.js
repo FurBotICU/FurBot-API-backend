@@ -7,20 +7,17 @@ const router = express.Router();
 // 子路由
 const manageRouter = require('./manage');
 const oauthRouter = require('./oauth');
-const statusRouter = require('./status');
+const botRouter = require('./bot');
 
 // 中间件
 const authMiddle = require('../middlewares/auth');
 
 router.use('/manage', authMiddle.status, manageRouter);
 router.use('/oauth', oauthRouter);
-router.use('/status', authMiddle.verifySign, statusRouter);
+router.use('/bot', authMiddle.verifySign, botRouter);
 
 router.get('/', async (req, res) => {
-    res.send({
-        code: 200,
-        msg: 'okkkkk'
-    })
+    res.redirect("https://dash.api.furbot.icu");
 });
 
 module.exports = router;

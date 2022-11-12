@@ -6,10 +6,10 @@
 const { Request, Response } = require('express');
 
 // 引入控制器
-const { getProgram } = require('../../common/program');
+const { getProgram } = require('../../../common/program');
 
 // 引入数据模型
-const Developer = require('../../schemas/Developer');
+const Developer = require('../../../schemas/Developer');
 
 /**
  * 获取 Bot 程序列表

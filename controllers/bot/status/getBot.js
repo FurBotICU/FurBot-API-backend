@@ -6,7 +6,7 @@
 const { Request, Response } = require('express');
 
 // 引入控制器
-const { getBot } = require('../../common/bot');
+const { getBot } = require('../../../common/bot');
 
 /**
  * 获取 Bot

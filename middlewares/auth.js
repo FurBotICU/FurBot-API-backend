@@ -4,9 +4,14 @@
 
 // 引入库
 const { Request, Response, next } = require('express');
+const jwt = require('jsonwebtoken');
 
 // 引入数据模型
 const Developer = require('../schemas/Developer');
+const Secret = require('../schemas/Secret');
+
+// 引入配置文件
+const config = require('../config.json');
 
 module.exports = {
 
@@ -103,7 +108,87 @@ module.exports = {
      */
     async verifySign(req, res, next) {
 
-        
+        // 排除 /bot/getToken
+        if (req.path != '/getToken') {
+
+            const { token } = req.headers;
+
+            if (!token) {
+                res.send({
+                    code: -401,
+                    msg: "未登录"
+                });
+                return;
+            }
+
+            const jwtSecret = config.token.secret;
+
+            let r, data = {};
+
+            try {
+                
+                data = jwt.verify(token, jwtSecret);
+
+            } catch (error) {
+
+                let resp = {};
+
+                switch (error.name) {
+                    
+                    case 'JsonWebTokenError':
+                        resp = {
+                            code: -403,
+                            msg: "token 无效"
+                        };
+                        break;
+
+                    case 'TokenExpiredError':
+                        resp = {
+                            code: -403,
+                            msg: "token 已过期"
+                        };
+                        break;
+                
+                    default:
+                        resp = {
+                            code: -500,
+                            msg: "服务器内部错误"
+                        };
+                        console.log(error);
+                        break;
+                }
+
+                res.send(resp);
+
+                return;
+            }
+
+            const { appId } = data;
+
+            if (!appId) {
+                res.send({
+                    code: -403,
+                    msg: "token 无效"
+                });
+                return;
+            }
+
+            r = await Secret.findOne({ appId });
+
+            if (!r) {
+                res.send({
+                    code: -401,
+                    msg: "secret 不存在"
+                });
+                return;
+            }
+
+            req.bid = r.bid;
+            req.appId = r.appId;
+            req.uid = r.maintainer;
+
+        }
+
         next();
 
     }
