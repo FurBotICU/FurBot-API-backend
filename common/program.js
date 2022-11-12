@@ -57,6 +57,8 @@ module.exports = {
             }
         }
 
+        console.log(`增加 Bot 程序: ${contributor} - ${r.name} (${r.id})`);
+
         return {
             code: 200,
             msg: null,
@@ -129,6 +131,8 @@ module.exports = {
             msg: "未找到对应程序"
         }
 
+        console.log(`更新 Bot 程序: ${query.maintainer ? query.maintainer : ''} ${r.name} (${r.id})`);
+
         return {
             code: 200,
             msg: null,
@@ -152,6 +156,8 @@ module.exports = {
             code: -404,
             msg: "未找到对应程序"
         }
+
+        console.log(`更新 Bot 程序: ${query.maintainer ? query.maintainer : ''} ${r.name} (${r.id})`);
 
         return {
             code: 200,

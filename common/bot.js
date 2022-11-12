@@ -60,6 +60,8 @@ module.exports = {
             createTime: new Date()
         });
 
+        console.log(`增加 Bot 系列: ${maintainer} - ${r.name} (${r.id})`);
+
         return {
             code: 200,
             msg: null,
@@ -93,6 +95,8 @@ module.exports = {
             msg: "未找到对应系列"
         }
 
+        console.log(`更新 Bot 系列: ${query.maintainer ? query.maintainer : ''} ${r.name} (${r.id})`);
+
         return {
             code: 200,
             msg: null,
@@ -116,6 +120,8 @@ module.exports = {
             code: -404,
             msg: "未找到对应系列"
         }
+
+        console.log(`删除 Bot 系列: ${query.maintainer ? query.maintainer : ''} ${r.name} (${r.id})`);
 
         return {
             code: 200,
@@ -261,6 +267,8 @@ module.exports = {
             createTime: new Date()
         });
 
+        console.log(`增加 Bot: ${maintainer} - ${r.name} (${r.id})`);
+
         return {
             code: 200,
             msg: null,
@@ -366,6 +374,8 @@ module.exports = {
             }
         });
 
+        console.log(`更新 Bot: ${query.maintainer ? query.maintainer : ''} ${r.name} (${r.id})`);
+
         return {
             code: 200,
             msg: null,
@@ -389,6 +399,8 @@ module.exports = {
             code: -404,
             msg: "未找到对应 Bot"
         }
+
+        console.log(`删除 Bot: ${query.maintainer ? query.maintainer : ''} ${r.name} (${r.id})`);
 
         return {
             code: 200,
