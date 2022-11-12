@@ -5,13 +5,14 @@
 const { Schema, model } = require('mongoose');
 
 module.exports = model('Secret', new Schema({
-    developer: String,
+    maintainer: String,
     desc: String,
     expires: Number,
-    botId: String,
+    bid: String,
     appId: {
         type: String,
         unique: true
     },
-    secret: String
+    secret: String,
+    createTime: Date
 }))

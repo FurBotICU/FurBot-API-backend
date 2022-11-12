@@ -10,6 +10,7 @@ const router = require('express').Router();
 const developerRouter = require('./developer');
 const programRouter = require('./program');
 const botRouter = require('./bot');
+const secretRouter = require('./secret');
 
 // 中间件
 const authMiddle = require('../../middlewares/auth');
@@ -17,12 +18,6 @@ const authMiddle = require('../../middlewares/auth');
 router.use('/developer', developerRouter);
 router.use('/program', authMiddle.cert, programRouter);
 router.use('/bot', botRouter);
-
-router.get('/', async (req, res) => {
-    res.send({
-        code: 200,
-        msg: 'okkkkk'
-    })
-});
+router.use('/secret', secretRouter);
 
 module.exports = router;

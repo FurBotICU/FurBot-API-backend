@@ -6,8 +6,6 @@
 // 引入库
 const { simpleflake } = require('simpleflakes');
 
-const regex = require('../utils/regex');
-
 // 引入数据模型
 const Series = require('../schemas/Series');
 const Bot = require('../schemas/Bot');

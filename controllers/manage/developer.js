@@ -10,7 +10,6 @@ const path = require('path');
 
 // 引入数据模型
 const Developer = require('../../schemas/Developer');
-const Audit = require('../../schemas/Audit');
 
 // 引入通用控制器
 const auditCtrl = require('../../common/audit');

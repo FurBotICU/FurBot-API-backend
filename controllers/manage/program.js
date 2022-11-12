@@ -5,13 +5,6 @@
 // 引入类型
 const { Request, Response } = require('express');
 
-// 引入库
-const path = require('path');
-
-// 引入数据模型
-const Developer = require('../../schemas/Developer');
-const Program = require('../../schemas/Program');
-
 // 引入通用控制器
 const programCtrl = require('../../common/program');
 
