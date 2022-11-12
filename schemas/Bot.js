@@ -9,7 +9,10 @@ module.exports = model('Bot', new Schema({
         type: String,
         unique: true
     },
-    qq: Number,
+    qq: {
+        type: Number,
+        unique: true
+    },
     name: String,
     intro: String,
     // single | series

@@ -6,6 +6,8 @@
 // 引入库
 const { simpleflake } = require('simpleflakes');
 
+const filter = require('../utils/filter');
+
 // 引入数据模型
 const Audit = require('../schemas/Audit');
 
@@ -78,18 +80,20 @@ module.exports = {
     /**
      * 获取所有事件
      * @param {Object} query
-     * @param {Object} filter
+     * @param {Object} options
      * @return {Object}
      */
-    async getAudit(query, filter) {
+    async getAudit(query, options) {
 
         let r;
 
-        if (!filter) filter = {};
+        query = filter.filterUndefined(query);
 
-        Object.assign(filter, { _id: 0, __v: 0 });
+        if (!options) options = {};
 
-        r = await Audit.find(query, filter);
+        Object.assign(options, { _id: 0, __v: 0 });
+
+        r = await Audit.find(query, options);
 
         if (r.length == 0) return {
             code: -404,

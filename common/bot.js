@@ -6,6 +6,8 @@
 // 引入库
 const { simpleflake } = require('simpleflakes');
 
+const filter = require('../utils/filter');
+
 // 引入数据模型
 const Series = require('../schemas/Series');
 const Bot = require('../schemas/Bot');
@@ -21,6 +23,8 @@ module.exports = {
     async getBotSeries(query) {
 
         let r;
+
+        query = filter.filterUndefined(query);
 
         r = await Series.find(query, {
             _id: 0,
@@ -137,6 +141,8 @@ module.exports = {
 
         let r;
 
+        query = filter.filterUndefined(query);
+
         r = await Bot.findOne(query, {
             _id: 0,
             __v: 0
@@ -163,6 +169,8 @@ module.exports = {
     async getBotList(query) {
 
         let r;
+
+        query = filter.filterUndefined(query);
 
         r = await Bot.find(query, {
             _id: 0,

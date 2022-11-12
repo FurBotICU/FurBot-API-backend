@@ -93,6 +93,19 @@ module.exports = {
 
         // 跳回
         next();
+    },
+
+    /**
+     * 验证签名
+     * @param {Request} req 
+     * @param {Response} res 
+     * @param {next} next 
+     */
+    async verifySign(req, res, next) {
+
+        
+        next();
+
     }
 
 }

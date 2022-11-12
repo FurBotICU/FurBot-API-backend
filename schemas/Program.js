@@ -18,7 +18,10 @@ module.exports = model('Program', new Schema({
         unique: true
     },
     intro: String,
-    repo: String,
+    repo: {
+        type: String,
+        unique: true
+    },
     contributor: [String],
     createTime: Date
 }))

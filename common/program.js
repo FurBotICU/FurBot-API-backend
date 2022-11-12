@@ -7,6 +7,7 @@
 const { simpleflake } = require('simpleflakes');
 
 const regex = require('../utils/regex');
+const filter = require('../utils/filter');
 
 // 引入数据模型
 const Program = require('../schemas/Program');
@@ -78,6 +79,8 @@ module.exports = {
     async getProgram(query, options) {
 
         let r;
+
+        query = filter.filterUndefined(query);
 
         if (!options) options = {};
 

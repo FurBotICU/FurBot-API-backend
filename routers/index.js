@@ -7,12 +7,14 @@ const router = express.Router();
 // 子路由
 const manageRouter = require('./manage');
 const oauthRouter = require('./oauth');
+const statusRouter = require('./status');
 
 // 中间件
 const authMiddle = require('../middlewares/auth');
 
 router.use('/manage', authMiddle.status, manageRouter);
 router.use('/oauth', oauthRouter);
+router.use('/status', authMiddle.verifySign, statusRouter);
 
 router.get('/', async (req, res) => {
     res.send({
