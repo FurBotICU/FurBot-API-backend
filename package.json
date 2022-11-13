@@ -1,6 +1,6 @@
 {
   "name": "furbot-api-backend",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "FurBot-API 后端",
   "main": "app.js",
   "scripts": {

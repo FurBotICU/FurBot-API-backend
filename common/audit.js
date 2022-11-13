@@ -39,8 +39,6 @@ module.exports = {
                 type
             });
 
-            console.log(r);
-
             if (r.code != -404) {
 
                 if (r.code != 200) return r;

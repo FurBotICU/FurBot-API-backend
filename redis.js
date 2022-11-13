@@ -16,8 +16,7 @@ const client = redis.createClient({
         host,
         port
     },
-    password: pwd,
-    legacyMode: true
+    password: pwd
 })
 
 function connect () {

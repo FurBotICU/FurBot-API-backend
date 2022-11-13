@@ -26,6 +26,5 @@ module.exports = model('Bot', new Schema({
     },
     maintainer: String,
     program: [String],
-    createTime: Date,
-    lastOnlineTime: Date
+    createTime: Date
 }))

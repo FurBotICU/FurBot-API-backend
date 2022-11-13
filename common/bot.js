@@ -5,7 +5,7 @@
 
 // 引入库
 const { simpleflake } = require('simpleflakes');
-
+const { client } = require('../redis');
 const filter = require('../utils/filter');
 
 // 引入数据模型
@@ -146,12 +146,14 @@ module.exports = {
         r = await Bot.findOne(query, {
             _id: 0,
             __v: 0
-        });
+        }).lean();
 
         if (!r) return {
             code: -404,
             msg: "未找到对应 Bot"
         }
+
+        r = await getBotItemStatus(r);
 
         return {
             code: 200,
@@ -175,7 +177,9 @@ module.exports = {
         r = await Bot.find(query, {
             _id: 0,
             __v: 0
-        });
+        }).lean();
+
+        r = await getBotItemStatus(r);
 
         return {
             code: 200,
@@ -413,6 +417,99 @@ module.exports = {
             msg: null
         }
 
-    },
+    }
+
+}
+
+/**
+ * 获取 Bot 状态
+ * @param {Array | String} bots
+ * @return {Array | Number | null}
+ */
+async function getBotStatus(bot) {
+
+    const rStr = "furbot-api:bot:"
+
+    let r;
+
+    switch (typeof bot) {
+
+        case 'object':
+
+            if (!bot.length) return bot;
+
+            bot = bot.map(e => {
+                return rStr + e;
+            })
+
+            r = await client.mGet(bot);
+
+            break;
+
+        case 'string':
+
+            r = await client.get(rStr + bot);
+
+            break;
+
+        default:
+            return bot;
+    }
+
+    return r;
+
+}
+
+/**
+ * 获取 Bot Item 列表状态
+ * @param {Array | Object} botItem
+ * @return {Array | Object}
+ */
+async function getBotItemStatus(botItem) {
+
+    const rStr = 'furbot-api:bot:';
+
+    let r;
+
+    switch (Array.isArray(botItem)) {
+
+        case true:
+
+            r = [];    
+
+            let botList = botItem.map(e => {
+                return rStr + e.id;
+            });
+
+            botList = await client.mGet(botList);
+            
+            for (let i = 0; i < botItem.length; i++) {
+                const bot = botList[i];
+                r.push(Object.assign(botItem[i], {
+                    status: bot ? 'online' : 'offline',
+                    startTime: bot ? parseInt(bot) : null
+                }))
+            }
+
+            break;
+
+        case false:
+
+            if (typeof botItem != 'object') return botItem;
+
+            r = await client.get(rStr + botItem.id);
+
+            r = Object.assign(botItem, {
+                status: r ? 'online' : 'offline',
+                startTime: r ? parseInt(r) : null
+            })
+
+            break;
+
+    }
+
+    console.log(r)
+
+    return r;
 
 }

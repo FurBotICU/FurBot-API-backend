@@ -13,10 +13,7 @@ module.exports = {
         for (let [key, value] of Object.entries(origin)) {
             if (typeof value == 'object') {
                 value = this.filterUndefined(value);
-                if (Object.keys(value).length == 0) {
-                    console.log(0)
-                    continue;
-                }
+                if (Object.keys(value).length == 0) continue;
             }
             if (typeof value != 'undefined') {
                 temp[key] = value;
