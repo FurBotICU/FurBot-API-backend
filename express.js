@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
 // 引入配置文件
-const {port} = require('./config.json').express;
+const {port, cors} = require('./config.json').express;
 const {domain, secret} = require('./config.json').express.session;
 
 // 初始化
@@ -27,11 +27,13 @@ const app = express();
 
 // 处理跨域
 const allowCors = (req, res, next) => {
-    // res.header('Access-Control-Allow-Origin', req.headers.origin);
-    // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    // res.header('Access-Control-Allow-Headers', 'Content-Type');
-    // res.header('Access-Control-Allow-Credentials','true');
-    next();
+    if (cors.indexOf(req.headers.host) != -1) {
+        res.header('Access-Control-Allow-Origin', req.headers.host);
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+        res.header('Access-Control-Allow-Credentials','true');
+        next();
+    }
 };
 app.use(allowCors);
 
