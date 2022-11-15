@@ -13,6 +13,7 @@ const Developer = require('../../schemas/Developer');
 
 // 引入通用控制器
 const auditCtrl = require('../../common/audit');
+const regex = require('../../utils/regex');
 
 module.exports = {
 
@@ -124,7 +125,17 @@ module.exports = {
 
         // TOOD: 数据校验
 
-        const { nick, name, qq, email, avatar } = req.body;
+        // const { nick, name, qq, email, avatar } = req.body;
+
+        const { qq, email } = req.body;
+
+        if (typeof qq != 'number' || typeof email != 'string' || !regex.email.test(email)) {
+            res.send({
+                code: -402,
+                msg: "格式不正确"
+            });
+            return;
+        }
 
         r = await Developer.findOneAndUpdate({ id }, {
             $set: {

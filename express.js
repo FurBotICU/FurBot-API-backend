@@ -28,7 +28,7 @@ const app = express();
 // 处理跨域
 const allowCors = (req, res, next) => {
     if (cors.indexOf(req.headers.host) != -1) {
-        res.header('Access-Control-Allow-Origin', req.headers.host);
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Content-Type');
         res.header('Access-Control-Allow-Credentials','true');

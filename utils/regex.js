@@ -10,6 +10,11 @@ module.exports = {
      * 数字不可起始
      * 短横不可起始或末尾
      */
-    commonName: /^[A-Za-z]+-?[A-Za-z0-9]+$/
+    commonName: /^[A-Za-z]+-?[A-Za-z0-9]+$/,
+
+    /**
+     * 邮箱
+     */
+    email: /^[A-Za-z0-9\d]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,4}$/
 
 }
