@@ -2,20 +2,21 @@
  * Bot API 索引路由
  * /bot
  */
-
-// 初始化路由
-const router = require('express').Router();
-
-// 子路由
-const statusRouter = require('./status');
-
+import { Router } from 'express'
+import getStatusRouter from './status'
 // 控制器
-const getToken = require('../../controllers/bot/getToken');
-const heartbeat = require('../../controllers/bot/heartbeat');
+import getToken from '../../controllers/bot/getToken'
+import heartbeat from '../../controllers/bot/heartbeat'
+export default () => {
+  // 初始化路由
+  const router = Router()
 
-router.use('/status', statusRouter);
+  // 子路由
+  const statusRouter = getStatusRouter()
 
-router.post('/getToken', getToken);
-router.post('/heartbeat', heartbeat);
+  router.use('/status', statusRouter)
 
-module.exports = router;
+  router.post('/getToken', getToken)
+  router.post('/heartbeat', heartbeat)
+  return router
+}

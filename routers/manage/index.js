@@ -2,22 +2,27 @@
  * 管理路由索引
  * /manage
  */
-
-// 初始化路由
-const router = require('express').Router();
+import { Router } from 'express'
 
 // 子路由
-const developerRouter = require('./developer');
-const programRouter = require('./program');
-const botRouter = require('./bot');
-const secretRouter = require('./secret');
-
+import getDeveloperRouter from './developer'
+import getProgramRouter from './program'
+import getBotRouter from './bot'
+import getSecretRouter from './secret'
 // 中间件
-const authMiddle = require('../../middlewares/auth');
+import * as authMiddle from '../../middlewares/auth'
+export default () => {
+  // 初始化路由
+  const router = Router()
 
-router.use('/developer', developerRouter);
-router.use('/program', authMiddle.cert, programRouter);
-router.use('/bot', botRouter);
-router.use('/secret', secretRouter);
-
-module.exports = router;
+  // 子路由
+  const developerRouter = getDeveloperRouter()
+  const programRouter = getProgramRouter()
+  const botRouter = getBotRouter()
+  const secretRouter = getSecretRouter()
+  router.use('/developer', developerRouter)
+  router.use('/program', authMiddle.cert, programRouter)
+  router.use('/bot', botRouter)
+  router.use('/secret', secretRouter)
+  return router
+}

@@ -2,16 +2,15 @@
  * Bot 程序管理
  * /program
  */
-
-// 初始化路由
-const router = require('express').Router();
-
+import { Router } from 'express'
 // 引入控制器
-const programCtrl = require('../../controllers/manage/program');
-
-router.get('/list', programCtrl.getProgramList);
-router.post('/add', programCtrl.addProgram);
-router.post('/update', programCtrl.updateProgram);
-router.post('/delete', programCtrl.deleteProgram);
-
-module.exports = router;
+import * as programCtrl from '../../controllers/manage/program'
+// 初始化路由
+export default () => {
+  const router = Router()
+  router.get('/list', programCtrl.getProgramList)
+  router.post('/add', programCtrl.addProgram)
+  router.post('/update', programCtrl.updateProgram)
+  router.post('/delete', programCtrl.deleteProgram)
+  return router
+}
