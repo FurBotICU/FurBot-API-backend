@@ -3,143 +3,139 @@
  */
 
 // 引入类型
-const { Request, Response } = require('express');
+// import { Request, Response } from 'express'
 
 // 引入库
-const { simpleflake } = require('simpleflakes');
-const srs = require('secure-random-string');
+import { simpleflake } from 'simpleflakes'
+import srs from 'secure-random-string'
 
 // 引入数据模型
-const Developer = require('../../schemas/Developer');
-const Program = require('../../schemas/Program');
-const Secret = require('../../schemas/Secret');
+// import Developer from '../../schemas/Developer'
+// import Program from '../../schemas/Program'
+import { find, create, findOneAndDelete } from '../../schemas/Secret'
+/**
+ * 获取 Secret 列表
+ * @param {Request} req
+ * @param {Response} res
+ */
+export async function getSecretList(req, res) {
+  const { uid } = req.session
 
-module.exports = {
-    
-    /**
-     * 获取 Secret 列表
-     * @param {Request} req 
-     * @param {Response} res
-     */
-    async getSecretList(req, res) {
+  let r
 
-        const { uid } = req.session;
-
-        let r;
-
-        r = await Secret.find({
-            maintainer: uid
-        }, {
-            _id: 0,
-            __v: 0,
-            secret: 0
-        });
-
-        res.send({
-            code: 200,
-            msg: null,
-            data: r
-        });
-
+  r = await find(
+    {
+      maintainer: uid
     },
+    {
+      _id: 0,
+      __v: 0,
+      secret: 0
+    }
+  )
 
-    /**
-     * 生成 Secret
-     * @param {Request} req 
-     * @param {Response} res
-     */
-    async genSecret(req, res) {
+  res.send({
+    code: 200,
+    msg: null,
+    data: r
+  })
+}
+/**
+ * 生成 Secret
+ * @param {Request} req
+ * @param {Response} res
+ */
+export async function genSecret(req, res) {
+  const timestamp = new Date()
 
-        const timestamp = new Date();
+  const { uid } = req.session
+  const { bid, desc, expires } = req.body
 
-        const { uid } = req.session;
-        const { bid, desc, expires } = req.body;
+  if (
+    typeof bid != 'string' ||
+    typeof expires != 'number' ||
+    (desc && typeof desc != 'string')
+  ) {
+    res.send({
+      code: -402,
+      msg: '参数错误'
+    })
+    return
+  }
 
-        if (
-            typeof bid != 'string' ||
-            typeof expires != 'number' ||
-            (desc && typeof desc != 'string')
-        ) {
-            res.send({
-                code: -402,
-                msg: "参数错误"
-            });
-            return;
-        }
+  if (timestamp.getTime() > expires) {
+    res.send({
+      code: -402,
+      msg: '请使用正确的过期时间'
+    })
+    return
+  }
 
-        if (timestamp.getTime() > expires) {
-            res.send({
-                code: -402,
-                msg: "请使用正确的过期时间"
-            });
-            return;
-        }
+  const appId = simpleflake().toString(16)
+  const secret = srs()
 
-        let r;
-        
-        const appId = simpleflake().toString(16);
-        const secret = srs();
+  //   const r = await create({
+  //     appId,
+  //     secret,
+  //     maintainer: uid,
+  //     desc,
+  //     expires,
+  //     bid,
+  //     createTime: timestamp
+  //   })
 
-        r = await Secret.create({
-            appId,
-            secret,
-            maintainer: uid,
-            desc,
-            expires,
-            bid,
-            createTime: timestamp
-        })
+  await create({
+    appId,
+    secret,
+    maintainer: uid,
+    desc,
+    expires,
+    bid,
+    createTime: timestamp
+  })
+  res.send({
+    code: 200,
+    msg: null,
+    data: {
+      appId,
+      secret
+    }
+  })
+}
+/**
+ * 删除 Secret
+ * @param {Request} req
+ * @param {Response} res
+ */
+export async function deleteSecret(req, res) {
+  const { uid } = req.session
+  const { appId } = req.body
 
-        res.send({
-            code: 200,
-            msg: null,
-            data: {
-                appId,
-                secret
-            }
-        });
+  if (typeof appId != 'string') {
+    res.send({
+      code: -402,
+      msg: '参数错误'
+    })
+    return
+  }
 
-    },
-    /**
-     * 删除 Secret
-     * @param {Request} req 
-     * @param {Response} res
-     */
-    async deleteSecret(req, res) {
+  let r
 
-        const { uid } = req.session;
-        const { appId } = req.body;
+  r = await findOneAndDelete({
+    appId,
+    maintainer: uid
+  })
 
-        if (
-            typeof appId != 'string'
-        ) {
-            res.send({
-                code: -402,
-                msg: "参数错误"
-            });
-            return;
-        }
+  if (!r) {
+    res.send({
+      code: -404,
+      msg: '未找到对应 appId'
+    })
+    return
+  }
 
-        let r;
-
-        r = await Secret.findOneAndDelete({
-            appId,
-            maintainer: uid
-        })
-
-        if (!r) {
-            res.send({
-                code: -404,
-                msg: "未找到对应 appId"
-            });
-            return;
-        }
-
-        res.send({
-            code: 200,
-            msg: null
-        });
-
-    },
-
+  res.send({
+    code: 200,
+    msg: null
+  })
 }
