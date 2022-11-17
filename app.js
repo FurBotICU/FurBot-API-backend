@@ -1,23 +1,27 @@
 /**
  * FurBot-API
  * @author colour93 <colour_93@furry.top>
- * @author FurryR <nu11ptr@foxmail.com>
  */
 
-import preload from './preload'
-import * as redis from './redis'
-import * as mongo from './mongo'
-import express from './express'
-import exit_handler from './exit'
-
 // 加载预处理
-preload()
+require('./preload');
+
 // 初始化
-;(async () => {
-  const client = redis.createClient()
-  await redis.connect(client)
-  await mongo.loadPlugin()
-  await mongo.connect()
-  express()
-  exit_handler(client)
-})()
+init();
+
+async function init () {
+
+    // 先初始化redis
+    const redis = require('./redis');
+    await redis.connect();
+
+    // 继而初始化mongo
+    const mongo = require('./mongo');
+    await mongo.connect();
+
+    // 最后初始化express
+    const express = require('./express');
+
+    // 挂载退出监控
+    require('./exit');
+}

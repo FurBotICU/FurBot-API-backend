@@ -3,17 +3,16 @@
  * /status
  */
 
-import getBotProgramList from '../../controllers/bot/status/getBotProgramList'
-import getBotProgram from '../../controllers/bot/status/getBotProgram'
-import getBotList from '../../controllers/bot/status/getBotList'
-import getBot from '../../controllers/bot/status/getBot'
-import { Router } from 'express'
-export default () => {
-  const router = Router()
+const getBotProgramList = require('../../controllers/bot/status/getBotProgramList');
+const getBotProgram = require('../../controllers/bot/status/getBotProgram');
+const getBotList = require('../../controllers/bot/status/getBotList');
+const getBot = require('../../controllers/bot/status/getBot');
 
-  router.get('/getBotProgramList', getBotProgramList)
-  router.get('/getBotProgram', getBotProgram)
-  router.get('/getBotList', getBotList)
-  router.get('/getBot', getBot)
-  return router
-}
+const router = require('express').Router();
+
+router.get('/getBotProgramList', getBotProgramList);
+router.get('/getBotProgram', getBotProgram);
+router.get('/getBotList', getBotList);
+router.get('/getBot', getBot);
+
+module.exports = router;

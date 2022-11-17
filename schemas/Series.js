@@ -2,17 +2,14 @@
  * Series
  */
 
-import { Schema, model } from 'mongoose'
+const { Schema, model } = require('mongoose');
 
-export default model(
-  'Series',
-  new Schema({
+module.exports = model('Series', new Schema({
     id: {
-      type: String,
-      unique: true
+        type: String,
+        unique: true
     },
     name: String,
     maintainer: String,
     createTime: Date
-  })
-)
+}))

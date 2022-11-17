@@ -1,26 +1,23 @@
 // 引入库
-import { Router } from 'express'
+const express = require('express');
+
+// 初始化路由
+const router = express.Router();
 
 // 子路由
-import manageRouter from './manage'
-import oauthRouter from './oauth'
-import botRouter from './bot'
+const manageRouter = require('./manage');
+const oauthRouter = require('./oauth');
+const botRouter = require('./bot');
 
 // 中间件
-import { status, verifySign } from '../middlewares/auth'
-/**
- * 初始化路由。
- * @returns 路由
- */
-export default () => {
-  // 初始化路由
-  const router = Router()
-  router.use('/manage', status, manageRouter)
-  router.use('/oauth', oauthRouter)
-  router.use('/bot', verifySign, botRouter)
+const authMiddle = require('../middlewares/auth');
 
-  router.get('/', async (_req, res) => {
-    res.redirect('https://dash.api.furbot.icu')
-  })
-  return router
-}
+router.use('/manage', authMiddle.status, manageRouter);
+router.use('/oauth', oauthRouter);
+router.use('/bot', authMiddle.verifySign, botRouter);
+
+router.get('/', async (req, res) => {
+    res.redirect("https://dash.api.furbot.icu");
+});
+
+module.exports = router;

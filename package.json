@@ -6,9 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development node app.js",
     "dev-logger": "cross-env NODE_ENV=development MORGAN=true node app.js",
-    "start": "node app.js",
-    "lint": "eslint ./",
-    "fix": "eslint ./ --fix"
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
@@ -29,7 +27,6 @@
     "simpleflakes": "^2.2.2"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
-    "eslint": "^8.27.0"
+    "cross-env": "^7.0.3"
   }
 }

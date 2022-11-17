@@ -3,27 +3,29 @@
  */
 
 // 引入类型
-// import { Request, Response } from 'express'
+const { Request, Response } = require('express');
 
 // 引入控制器
-import { getBot } from '../../../common/bot'
+const { getBot } = require('../../../common/bot');
 
 /**
  * 获取 Bot
- * @param {Request} req
+ * @param {Request} req 
  * @param {Response} res
  */
-export default async (req, res) => {
-  const { bid, qq } = req.query
+module.exports = async function (req, res) {
 
-  let r
+    const { bid, qq } = req.query;
 
-  const query = {
-    id: bid,
-    qq
-  }
+    let r;
 
-  r = await getBot(query)
+    const query = {
+        id: bid,
+        qq
+    };
 
-  res.send(r)
+    r = await getBot(query);
+
+    res.send(r);
+
 }

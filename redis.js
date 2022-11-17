@@ -3,46 +3,43 @@
  */
 
 // 引入库
-import { createClient as _createClient } from 'redis'
+const redis = require('redis');
 
 // 引入配置文件
-import { redis as config } from './config.json'
-const { host, port, pwd } = config
+const {host, port, pwd} = require('./config.json').redis;
 
 // 连接Redis
-/**
- * 创建 redis 客户端。
- * @returns redis 客户端
- */
-export function createClient() {
-  console.log('初始化 Redis 连接')
+console.log("初始化 Redis 连接");
 
-  return _createClient({
+const client = redis.createClient({
     socket: {
-      host,
-      port
+        host,
+        port
     },
     password: pwd
-  })
-}
+})
 
-/**
- * 配置 redis 连接。
- * @param {RedisClient} client
- * @return redis 客户端。
- */
-export function connect(client) {
-  return new Promise(resolve => {
-    client.connect()
+function connect () {
+    return new Promise (async (resolve, reject) => {
+        
+        client.connect();
+        
+        client.on('ready', async(e) => {
+            console.log('Redis 连接成功')
+            resolve();
+        })
+        
+        client.on('error', async(err) => {
+            console.error(err);
+            resolve();
+        })
 
-    client.on('ready', async () => {
-      console.log('Redis 连接成功')
-      resolve()
     })
 
-    client.on('error', async err => {
-      console.error('发生错误', err)
-      resolve() // reject() ?
-    })
-  })
 }
+
+// 暴露接口
+module.exports = {
+    connect,
+    client
+};

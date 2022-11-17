@@ -3,38 +3,40 @@
  */
 
 // 引入类型
-// import { Request, Response } from 'express'
+const { Request, Response } = require('express');
 
 // 引入控制器
-import { getProgram } from '../../../common/program'
+const { getProgram } = require('../../../common/program');
 
 /**
  * 获取 Bot 程序
- * @param {Request} req
+ * @param {Request} req 
  * @param {Response} res
  */
-export default async (req, res) => {
-  const { pid, pname, prepo } = req.query
+module.exports = async function (req, res) {
 
-  let r
+    const { pid, pname, prepo } = req.query;
 
-  const query = {
-    id: pid,
-    name: pname,
-    repo: prepo
-  }
+    let r;
 
-  r = await getProgram(query)
+    const query = {
+        id: pid,
+        name: pname,
+        repo: prepo
+    };
 
-  if (r.data.length == 0) {
-    res.send({
-      code: -404,
-      msg: '未找到对应程序'
-    })
-    return
-  }
+    r = await getProgram(query);
 
-  r.data = r.data[0]
+    if (r.data.length == 0) {
+        res.send({
+            code: -404,
+            msg: "未找到对应程序"
+        });
+        return;
+    }
 
-  res.send(r)
+    r.data = r.data[0];
+
+    res.send(r);
+
 }

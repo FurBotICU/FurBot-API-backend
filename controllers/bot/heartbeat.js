@@ -3,49 +3,49 @@
  */
 
 // 引入类型
-// import { Request, Response } from 'express'
+const { Request, Response } = require('express');
 
 // 引入数据模型
-import { client } from '../../redis'
+const { client } = require('../../redis');
 
 /**
  * 心跳包
- * @param {Request} req
+ * @param {Request} req 
  * @param {Response} res
  */
-export default async (req, res) => {
-  const now = new Date().getTime()
+module.exports = async function (req, res) {
 
-  // const { appId, bid, uid } = req
-  const { bid } = req
+    const now = (new Date()).getTime();
 
-  // let r, ex
-  let r
+    const { appId, bid, uid } = req;
 
-  const rStr = `furbot-api:bot:${bid}`
+    let r, ex;
 
-  // 判断是否存在
-  r = await client.get(rStr)
+    const rStr = `furbot-api:bot:${bid}`;
 
-  const ts = r ? r : now
+    // 判断是否存在
+    r = await client.get(rStr);
 
-  r = await client.set(rStr, ts, { EX: 40 })
+    const ts = r ? r : now;
 
-  if (r != 'OK') {
-    res.send({
-      code: -500,
-      msg: '服务器内部错误'
-    })
-    console.log(r)
-    return
-  }
+    r = await client.set(rStr, ts, {EX: 40});
 
-  res.send({
-    code: 200,
-    msg: null,
-    data: {
-      next_interval: 30,
-      expires: now + 40 * 1000
+    if (r != 'OK') {
+        res.send({
+            code: -500,
+            msg: "服务器内部错误"
+        });
+        console.log(r);
+        return;
     }
-  })
+
+    res.send({
+        code: 200,
+        msg: null,
+        data: {
+            next_interval: 30,
+            expires: now + 40 * 1000
+        }
+    })
+    
 }
