@@ -6,7 +6,7 @@
 // import { Request } from 'express'
 
 // 引入数据模型
-import Developer from '../schemas/Developer'
+import Developer from '../schemas/Developer.js'
 
 export const oauth = {
   /**

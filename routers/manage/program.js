@@ -4,7 +4,7 @@
  */
 import { Router } from 'express'
 // 引入控制器
-import * as programCtrl from '../../controllers/manage/program'
+import * as programCtrl from '../../controllers/manage/program.js'
 // 初始化路由
 export default () => {
   const router = Router()

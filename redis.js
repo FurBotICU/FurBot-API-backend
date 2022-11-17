@@ -6,7 +6,8 @@
 import { createClient as _createClient } from 'redis'
 
 // 引入配置文件
-import { redis as config } from './config.json'
+import _config from './config.json' assert { type: 'json' }
+const { redis: config } = _config
 const { host, port, pwd } = config
 
 // 连接Redis
@@ -25,7 +26,7 @@ export function createClient() {
     password: pwd
   })
 }
-
+export const client = createClient() // 摆了 uwu
 /**
  * 配置 redis 连接。
  * @param {RedisClient} client

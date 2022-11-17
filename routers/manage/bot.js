@@ -5,7 +5,7 @@
 
 import { Router } from 'express'
 // 引入控制器
-import * as botCtrl from '../../controllers/manage/bot'
+import * as botCtrl from '../../controllers/manage/bot.js'
 // 初始化路由
 export default () => {
   const router = Router()

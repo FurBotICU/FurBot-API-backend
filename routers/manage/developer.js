@@ -3,7 +3,7 @@
  * /developer
  */
 import { Router } from 'express'
-import * as developerCtrl from '../../controllers/manage/developer'
+import * as developerCtrl from '../../controllers/manage/developer.js'
 // 初始化路由
 export default () => {
   const router = Router()

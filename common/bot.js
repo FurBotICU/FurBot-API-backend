@@ -4,26 +4,24 @@
  */
 
 // 引入库
-import { simpleflake } from 'simpleflakes'
-import { client } from '../redis'
-import { filterUndefined } from '../utils/filter'
+import simpleflakes from 'simpleflakes'
+const { simpleflake } = simpleflakes
+import { client } from '../redis.js'
+import { filterUndefined } from '../utils/filter.js'
 
 // 引入数据模型
-import {
-  find,
-  create,
-  findOneAndUpdate,
-  findOneAndDelete,
-  findOne
-} from '../schemas/Series'
-import {
-  findOne as _findOne,
-  find as _find,
-  create as _create,
-  findOneAndUpdate as _findOneAndUpdate,
-  findOneAndDelete as _findOneAndDelete
-} from '../schemas/Bot'
-import { findOne as __findOne } from '../schemas/Program'
+import Series from '../schemas/Series.js'
+const { find, create, findOneAndUpdate, findOneAndDelete, findOne } = Series
+import Bot from '../schemas/Bot.js'
+const {
+  findOne: _findOne,
+  find: _find,
+  create: _create,
+  findOneAndUpdate: _findOneAndUpdate,
+  findOneAndDelete: _findOneAndDelete
+} = Bot
+import Program from '../schemas/Program.js'
+const { findOne: __findOne } = Program
 /**
  * 获取 Bot 系列列表
  * @param {Object} query

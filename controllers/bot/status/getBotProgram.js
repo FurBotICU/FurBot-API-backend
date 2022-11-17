@@ -6,7 +6,7 @@
 // import { Request, Response } from 'express'
 
 // 引入控制器
-import { getProgram } from '../../../common/program'
+import { getProgram } from '../../../common/program.js'
 
 /**
  * 获取 Bot 程序

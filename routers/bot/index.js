@@ -3,10 +3,10 @@
  * /bot
  */
 import { Router } from 'express'
-import getStatusRouter from './status'
+import getStatusRouter from './status.js'
 // 控制器
-import getToken from '../../controllers/bot/getToken'
-import heartbeat from '../../controllers/bot/heartbeat'
+import getToken from '../../controllers/bot/getToken.js'
+import heartbeat from '../../controllers/bot/heartbeat.js'
 export default () => {
   // 初始化路由
   const router = Router()

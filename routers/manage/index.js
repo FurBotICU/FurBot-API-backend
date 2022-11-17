@@ -5,12 +5,12 @@
 import { Router } from 'express'
 
 // 子路由
-import getDeveloperRouter from './developer'
-import getProgramRouter from './program'
-import getBotRouter from './bot'
-import getSecretRouter from './secret'
+import getDeveloperRouter from './developer.js'
+import getProgramRouter from './program.js'
+import getBotRouter from './bot.js'
+import getSecretRouter from './secret.js'
 // 中间件
-import * as authMiddle from '../../middlewares/auth'
+import * as authMiddle from '../../middlewares/auth.js'
 export default () => {
   // 初始化路由
   const router = Router()

@@ -3,7 +3,7 @@
  * /secret
  */
 import { Router } from 'express'
-import * as secretCtrl from '../../controllers/manage/secret'
+import * as secretCtrl from '../../controllers/manage/secret.js'
 // 初始化路由
 export default () => {
   const router = Router()

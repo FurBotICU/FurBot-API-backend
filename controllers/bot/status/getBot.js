@@ -6,7 +6,7 @@
 // import { Request, Response } from 'express'
 
 // 引入控制器
-import { getBot } from '../../../common/bot'
+import { getBot } from '../../../common/bot.js'
 
 /**
  * 获取 Bot

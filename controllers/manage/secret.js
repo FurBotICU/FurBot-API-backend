@@ -6,13 +6,15 @@
 // import { Request, Response } from 'express'
 
 // 引入库
-import { simpleflake } from 'simpleflakes'
+import simpleflakes from 'simpleflakes'
+const { simpleflake } = simpleflakes
 import srs from 'secure-random-string'
 
 // 引入数据模型
 // import Developer from '../../schemas/Developer'
 // import Program from '../../schemas/Program'
-import { find, create, findOneAndDelete } from '../../schemas/Secret'
+import Secret from '../../schemas/Secret.js'
+const { find, create, findOneAndDelete } = Secret
 /**
  * 获取 Secret 列表
  * @param {Request} req

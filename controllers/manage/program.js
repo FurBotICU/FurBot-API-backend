@@ -11,7 +11,7 @@ import {
   addProgram as _addProgram,
   updateProgram as _updateProgram,
   deleteProgram as _deleteProgram
-} from '../../common/program'
+} from '../../common/program.js'
 /**
  * 获取当前帐号注册的程序列表
  * @param {Request} req

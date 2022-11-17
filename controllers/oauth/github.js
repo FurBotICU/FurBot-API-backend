@@ -9,13 +9,15 @@
 import axios from 'axios'
 
 // 引入配置文件
-import { oauth } from '../../config.json'
-const { github } = oauth
-import { proxy } from '../../config.json'
-import { express as expressConfig } from '../../config.json'
+import _config from '../../config.json' assert { type: 'json' }
+const {
+  oauth: { github },
+  proxy,
+  express: expressConfig
+} = _config
 
 // 引入auth控制器
-import { oauth as _oauth } from '../auth'
+import { oauth } from '../auth.js'
 
 export function request(req, res) {
   if (process.env.dev) console.log('GitHub 登录请求')
@@ -126,7 +128,7 @@ export async function callback(req, res) {
   }
 
   // 使用通用身份认证换取用户信息
-  r = await _oauth.github(userInfoObj, req)
+  r = await oauth.github(userInfoObj, req)
   if (!r) {
     res.send({
       code: -410,

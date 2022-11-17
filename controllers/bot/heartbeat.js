@@ -6,7 +6,7 @@
 // import { Request, Response } from 'express'
 
 // 引入数据模型
-import { client } from '../../redis'
+import { client } from '../../redis.js'
 
 /**
  * 心跳包

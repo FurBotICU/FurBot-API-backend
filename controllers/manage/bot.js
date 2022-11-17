@@ -16,7 +16,7 @@ import {
   addBot as _addBot,
   updateBot as _updateBot,
   deleteBot as _deleteBot
-} from '../../common/bot'
+} from '../../common/bot.js'
 /**
  * 获取 Bot 系列列表
  * @param {Request} req

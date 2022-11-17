@@ -3,7 +3,7 @@
  * /oauth
  */
 import {Router} from 'express'
-import * as githubCtrl from '../controllers/oauth/github'
+import * as githubCtrl from '../controllers/oauth/github.js'
 export default () => {
   const router = Router()
 

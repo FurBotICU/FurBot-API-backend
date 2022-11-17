@@ -6,10 +6,10 @@
 // import { Request, Response } from 'express'
 
 // 引入控制器
-import { getProgram } from '../../../common/program'
+import { getProgram } from '../../../common/program.js'
 
 // 引入数据模型
-import Developer from '../../../schemas/Developer'
+import Developer from '../../../schemas/Developer.js'
 
 /**
  * 获取 Bot 程序列表

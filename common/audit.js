@@ -4,12 +4,13 @@
  */
 
 // 引入库
-import { simpleflake } from 'simpleflakes'
+import simpleflakes from 'simpleflakes'
+const { simpleflake } = simpleflakes
 
-import { filterUndefined } from '../utils/filter'
+import { filterUndefined } from '../utils/filter.js'
 
 // 引入数据模型
-import Audit from '../schemas/Audit'
+import Audit from '../schemas/Audit.js'
 
 /**
  * 新增事件
@@ -28,7 +29,7 @@ export async function addAudit(uid, type) {
 
   // 先查询是否有同类型申请
   if (type == 'certificate' || type == 'destroy') {
-    r = await this.getAudit({
+    r = await getAudit({
       uid,
       type
     })
@@ -115,7 +116,7 @@ export async function operateAudit(eid, oid, result) {
   let r
 
   // 获取 event 的 status
-  r = this.getAudit({ eid })
+  r = getAudit({ eid })
 
   if (r.code != 200) return r
 

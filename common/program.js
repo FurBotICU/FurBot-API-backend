@@ -4,18 +4,15 @@
  */
 
 // 引入库
-import { simpleflake } from 'simpleflakes'
+import simpleflakes from 'simpleflakes'
+const { simpleflake } = simpleflakes
 
-import { commonName } from '../utils/regex'
-import { filterUndefined } from '../utils/filter'
+import { commonName } from '../utils/regex.js'
+import { filterUndefined } from '../utils/filter.js'
 
 // 引入数据模型
-import {
-  create,
-  find,
-  findOneAndUpdate,
-  findOneAndDelete
-} from '../schemas/Program'
+import Program from '../schemas/Program.js'
+const { create, find, findOneAndUpdate, findOneAndDelete } = Program
 /**
  * 新增 Bot 程序
  * @param {Object} data

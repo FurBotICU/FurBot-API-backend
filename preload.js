@@ -2,7 +2,8 @@
  * 初始化前的预处理
  */
 
-import { simpleflake } from 'simpleflakes'
+import simpleflakes from 'simpleflakes'
+const { simpleflake } = simpleflakes
 import { writeFileSync } from 'fs'
 
 export default () => {

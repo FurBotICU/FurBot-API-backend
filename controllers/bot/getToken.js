@@ -6,14 +6,16 @@
 // import { Request, Response } from 'express'
 
 // 引入库
-import { sign as _sign } from 'jsonwebtoken'
+import jsonwebtoken from 'jsonwebtoken'
+const { sign: _sign } = jsonwebtoken
 import md5 from 'md5'
 
 // 引入配置文件
-import { token as config } from '../../config.json'
+import _jsconfig from '../../config.json' assert { type: 'json' }
+const { token: config } = _jsconfig
 
 // 引入数据模型
-import Secret from '../../schemas/Secret'
+import Secret from '../../schemas/Secret.js'
 
 /**
  * 换取 Token

@@ -6,11 +6,11 @@
 // import { Request, Response } from 'express'
 
 // 引入控制器
-import { getProgram } from '../../../common/program'
-import { getBotList } from '../../../common/bot'
+import { getProgram } from '../../../common/program.js'
+import { getBotList } from '../../../common/bot.js'
 
 // 引入数据模型
-import Developer from '../../../schemas/Developer'
+import Developer from '../../../schemas/Developer.js'
 
 /**
  * 获取 Bot 列表

@@ -4,14 +4,17 @@
 
 // 引入库
 // import { Request, Response, next } from 'express'
-import { verify as _verify } from 'jsonwebtoken'
+import jsonwebtoken from 'jsonwebtoken'
+const { verify: _verify } = jsonwebtoken
 
 // 引入数据模型
-import Developer from '../schemas/Developer'
-import { findOne } from '../schemas/Secret'
+import Developer from '../schemas/Developer.js'
+import Secret from '../schemas/Secret.js'
+const { findOne } = Secret
 
 // 引入配置文件
-import { token as _token } from '../config.json'
+import _config from '../config.json' assert { type: 'json' }
+const { token: _token } = _config
 /**
  * 判断登录态
  * @param {Request} req

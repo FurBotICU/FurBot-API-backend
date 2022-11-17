@@ -9,12 +9,13 @@
 import { resolve } from 'path'
 
 // 引入数据模型
-import { findOne, findOneAndUpdate } from '../../schemas/Developer'
+import Developer from '../../schemas/Developer.js'
+const { findOne, findOneAndUpdate } = Developer
 
 // 引入通用控制器
-import { getAudit, addAudit } from '../../common/audit'
+import { getAudit, addAudit } from '../../common/audit.js'
 
-export function login(req, res) {
+export function login(_, res) {
   res.redirect('/oauth/github')
 }
 /**
@@ -35,7 +36,11 @@ export async function devLogin(req, res) {
     return
   }
 
-  const originToken = await import(resolve('.temp.json')).token
+  const originToken = (
+    await import(resolve('.temp.json'), {
+      assert: { type: 'json' }
+      })
+  ).token
 
   if (token != originToken) {
     res.send({

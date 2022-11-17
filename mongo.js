@@ -3,11 +3,14 @@
  */
 
 // 引入库
-import { plugin, connect as _connect, connection } from 'mongoose'
+import mongoose from 'mongoose'
+const { plugin, connect: _connect, connection } = mongoose
 
 // 引入配置文件
-import { mongo } from './config.json'
-const { host, user, pwd, db } = mongo
+import _config from './config.json' assert { type: 'json' }
+const {
+  mongo: { host, user, pwd, db }
+} = _config
 
 // 加载插件
 export async function loadPlugin() {

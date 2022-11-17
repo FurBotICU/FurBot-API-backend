@@ -6,16 +6,19 @@
 import express, { static as _static } from 'express'
 import { createServer } from 'http'
 import morgan from 'morgan'
-import { json } from 'body-parser'
+import body_parser from 'body-parser'
+const { json } = body_parser
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
-import getRouter from './routers'
+import getRouter from './routers/index.js'
 
 // 引入配置文件
-import { express as _express } from './config.json'
-const { port, session: {
-  domain, secret
-} } = _express
+import _config from './config.json' assert { type: 'json' }
+const { express: _express } = _config
+const {
+  port,
+  session: { domain, secret }
+} = _express
 
 import { resolve } from 'path'
 
@@ -49,7 +52,7 @@ function onListening() {
 }
 
 // 初始化
-export default () => {
+export default (dirname) => {
   console.log('初始化 Express')
 
   // 引入路由
@@ -78,7 +81,7 @@ export default () => {
       cookie: {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         domain
-      }
+      },
     })
   )
 
@@ -89,13 +92,13 @@ export default () => {
   }
 
   // 前端
-  app.use('/public', _static(resolve(__dirname, 'public')))
+  app.use('/public', _static(resolve(dirname, 'public')))
 
   // 设置路由
   app.use('/', router)
 
   // 设置端口
-  console.log(`Epxress 运行于 ${port}`)
+  console.log(`Express 运行于 ${port}`)
   app.set('port', port)
 
   // 创建 HTTP 服务实例
